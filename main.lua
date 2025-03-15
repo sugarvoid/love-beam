@@ -18,9 +18,13 @@ lume = require("lib.lume")
 flux = require("lib.flux")
 anim8 = require("lib.anim8")
 
-
+require("src.bad_ship")
+require("src.bullet")
 
 local lines = {}
+bullets = {}
+
+table.insert(bullets, Bullet())
 
 
 local player = {
@@ -102,6 +106,10 @@ end
 function love.update(dt)
     flux.update(dt)
 
+    for b in table.for_each(bullets) do
+        b:update()
+    end
+
 
     for l in table.for_each(lines) do
         l.y = l.y + l.s
@@ -168,6 +176,10 @@ function love.draw()
         if l.y >= 30 then
             love.graphics.line(0, l.y, 227, l.y)
         end
+    end
+
+    for b in table.for_each(bullets) do
+        b:draw()
     end
 
     player:draw()
