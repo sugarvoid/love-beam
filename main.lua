@@ -18,37 +18,23 @@ lume = require("lib.lume")
 flux = require("lib.flux")
 anim8 = require("lib.anim8")
 
+require("src.player")
 require("src.bad_ship")
 require("src.bullet")
+require("src.hud")
 
 local lines = {}
 bullets = {}
 
-table.insert(bullets, Bullet())
 
-
-local player = {
-    x = 40,
-    lane = 0, -- for bullet path
-    img = love.graphics.newImage("asset/image/player.png")
-}
-
-player.draw = function(self)
-    love.graphics.draw(self.img, self.x, 110)
-end
 
 table.insert(lines, { y = 35, s = 0.5 })
 table.insert(lines, { y = 25, s = 0.5 })
---table.insert(lines,{y=20, s=0.5})
 table.insert(lines, { y = 15, s = 0.5 })
---table.insert(lines,{y=10, s=0.5})
 table.insert(lines, { y = 5, s = 0.5 })
 table.insert(lines, { y = -5, s = 0.5 })
 table.insert(lines, { y = -15, s = 0.5 })
 table.insert(lines, { y = -25, s = 0.5 })
-
-
-
 
 
 input = baton.new {
@@ -57,7 +43,8 @@ input = baton.new {
         right = { 'key:right', 'key:d', 'axis:leftx+', 'button:dpright' },
         up = { 'key:up', 'key:w', 'axis:lefty-', 'button:dpup' },
         down = { 'key:down', 'key:s', 'axis:lefty+', 'button:dpdown' },
-        throw = { 'key:x', 'button:a', 'key:space' },
+        fire = { 'key:x', 'button:a', 'key:space' },
+        missile = { 'key:z', 'button:b', 'key:lshift' },
         quit = { 'key:q', 'button:back', 'key:escape' },
         pause = { 'key:return', 'button:start' } },
     pairs = {
@@ -134,14 +121,23 @@ end
 
 function check_inputs()
     if input:down 'left' then
-        player.x = player.x - 1
+        player:move('left')
     end
     if input:down 'right' then
-        player.x = player.x + 1
+        player:move('right')
     end
 
     if input:pressed 'quit' then
         quit_game()
+    end
+
+    if input:pressed 'fire' then
+        player:shoot_bullet()
+        print("fire")
+    end
+
+    if input:pressed 'missile' then
+        print("missile")
     end
 end
 
@@ -155,6 +151,8 @@ function love.draw()
     love.graphics.scale(window.scale)
     -- your graphics code here, optimized for fullHD
 
+    love.graphics.push("all")
+    set_color_from_hex("#2db0ff96")
     love.graphics.setLineWidth(0.5)
     love.graphics.line(0, 30, 227, 30)
 
@@ -177,6 +175,8 @@ function love.draw()
             love.graphics.line(0, l.y, 227, l.y)
         end
     end
+
+    love.graphics.pop()
 
     for b in table.for_each(bullets) do
         b:draw()
