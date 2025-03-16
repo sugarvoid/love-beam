@@ -5,7 +5,16 @@ local BULLET_SPRITESHEET = love.graphics.newImage("asset/image/bullet_sheet.png"
 local BULLET_WHITE = love.graphics.newQuad(0, 0, 8, 8, BULLET_SPRITESHEET)
 local BULLET_RED = love.graphics.newQuad(8, 0, 8, 8, BULLET_SPRITESHEET)
 
-function Bullet:new(x, y)
+
+local X_ENDS = {
+  227 / 2 - 45,
+  227 / 2 - 20,
+  227 / 2,
+  227 / 2 + 20,
+  227 / 2 + 45,
+}
+
+function Bullet:new(x, y, shooter)
   self.x = x
   self.y = y
   self.lane = nil
@@ -13,7 +22,7 @@ function Bullet:new(x, y)
   self.speed = 1
   self.sprite = BULLET_WHITE
   self.direction = -1
-  self.target = { x = self.x + 4, y = 30 }
+  self.target = { x = X_ENDS[shooter.lane], y = 30 }
   self.dx = self.target.x - self.x
   self.dy = self.target.y - self.y
   local len = math.sqrt(self.dx ^ 2 + self.dy ^ 2)

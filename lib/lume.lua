@@ -79,7 +79,7 @@ end
 
 
 
-function lume.clamp(x, min, max)
+function lume.clamp(min, x, max)
   return x < min and min or (x > max and max or x)
 end
 

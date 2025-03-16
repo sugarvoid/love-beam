@@ -8,6 +8,7 @@ function Player:new()
     self.x = LANES[self.lane]
     self.y = 100
     self.lives = 3
+    self.dx = 0
     self.missiles = 3
     self.next_x = nil
     self.is_moving = false
@@ -15,14 +16,28 @@ end
 
 function Player:move(dir)
     if dir == "left" then
-        self.x = self.x - 1
+        --self.x = self.x - 1
+        self.lane = lume.clamp(1, self.lane - 1, 5)
+        self.dx = -1
+        self.is_moving = true
     elseif dir == "right" then
-        self.x = self.x + 1
+        --self.x = self.x + 1
+        self.lane = lume.clamp(1, self.lane + 1, 5)
+        self.dx = 1
+        self.is_moving = true
     end
+
+    self.next_x = LANES[self.lane]
+    print(self.next_x)
 end
 
 function Player:update()
-    print(self.x)
+    --print(self.x)
+    if math.floor(self.x) ~= self.next_x then
+        self.x = self.x + self.dx
+    else
+        self.is_moving = false
+    end
 end
 
 function Player:on_hit(baddie)
@@ -39,8 +54,11 @@ function Player:reset()
 end
 
 function Player:shoot_bullet()
-    local b = Bullet(self.x + 8, self.y)
+    if not self.is_moving then
+       local b = Bullet(self.x+8, self.y, self)
     local _sfx = SFX_FIRE:clone()
     _sfx:play()
-    table.insert(bullets, b)
+    table.insert(bullets, b) 
+    end
+    
 end

@@ -125,10 +125,10 @@ function love.update(dt)
 end
 
 function check_inputs()
-    if input:down 'left' then
+    if input:pressed 'left' then
         player:move('left')
     end
-    if input:down 'right' then
+    if input:pressed 'right' then
         player:move('right')
     end
 
