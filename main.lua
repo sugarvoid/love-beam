@@ -1,5 +1,5 @@
 
-is_debug_on = false
+is_debug_on = true
 
 love.graphics.setDefaultFilter("nearest", "nearest")
 
@@ -138,10 +138,10 @@ function check_inputs()
 
     if input:pressed 'fire' then
         player:shoot_bullet()
-        print("fire")
     end
 
     if input:pressed 'missile' then
+        player:shoot_missile()
         print("missile")
     end
 end
@@ -165,6 +165,7 @@ function love.draw()
     love.graphics.line(0, 30, 227, 30)
 
 
+    -- TODO: Remove math once positions are good
     --middle 
     love.graphics.line(227 / 2, 30, 227 / 2, 128)
 

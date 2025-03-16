@@ -32,7 +32,6 @@ function Player:move(dir)
 end
 
 function Player:update()
-    --print(self.x)
     if math.floor(self.x) ~= self.next_x then
         self.x = self.x + self.dx
     else
@@ -54,11 +53,14 @@ function Player:reset()
 end
 
 function Player:shoot_bullet()
+    logger.debug("On player fire")
     if not self.is_moving then
-       local b = Bullet(self.x+8, self.y, self)
-    local _sfx = SFX_FIRE:clone()
-    _sfx:play()
-    table.insert(bullets, b) 
+        local b = Bullet(self.x + 8, self.y, self)
+        local _sfx = SFX_FIRE:clone()
+        _sfx:play()
+        table.insert(bullets, b)
     end
-    
+end
+
+function Player:shoot_missile()
 end
