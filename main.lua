@@ -1,16 +1,13 @@
 
 is_debug_on = false
 
-
-
 love.graphics.setDefaultFilter("nearest", "nearest")
-
 
 if is_debug_on then
     love.profiler = require('lib.profile')
 end
 
-love = require("love")
+
 Object = require "lib.classic"
 logger = require("lib.log")
 baton = require("lib.baton")
@@ -59,8 +56,15 @@ require("lib.timer")
 
 local screen_rect = { x = 0, y = 0, w = 227, h = 128 }
 
+--[[ 
+TODO: Fix these, they were gotten using player sprite, 
+        but forgot to account for player offset. 
+]]--
+LANES = {30,70,105,142,180}
+
 
 function love.load()
+    player = Player()
     if is_debug_on then
         logger.level = logger.Level.DEBUG
         logger.debug("Entering debug mode")
@@ -92,6 +96,7 @@ end
 
 function love.update(dt)
     flux.update(dt)
+    player:update()
 
     for b in table.for_each(bullets) do
         b:update()
@@ -151,12 +156,16 @@ function love.draw()
     love.graphics.scale(window.scale)
     -- your graphics code here, optimized for fullHD
 
+
+    love.graphics.print("FPS: "..tostring(love.timer.getFPS( )), 0, 0, 0, 0.4, 0.4)
+
     love.graphics.push("all")
-    set_color_from_hex("#2db0ff96")
+    set_color_from_hex("#00c0c096")
     love.graphics.setLineWidth(0.5)
     love.graphics.line(0, 30, 227, 30)
 
 
+    --middle 
     love.graphics.line(227 / 2, 30, 227 / 2, 128)
 
     love.graphics.line(227 / 2 - 20, 30, 227 / 2 - 40, 128)
@@ -167,6 +176,10 @@ function love.draw()
 
     love.graphics.line(227 / 2 - 75, 30, 227 / 2 - 130, 128)
     love.graphics.line(227 / 2 + 75, 30, 227 / 2 + 130, 128)
+
+
+    love.graphics.line(227 / 2 - 105, 30, 227 / 2 - 180, 128)
+    love.graphics.line(227 / 2 + 105, 30, 227 / 2 + 180, 128)
 
 
 

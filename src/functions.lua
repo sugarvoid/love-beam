@@ -1,7 +1,3 @@
-function get_rand_screen_x()
-    -- For spawning rocks and mailboxes
-    return math.random(18, 110)
-end
 
 function get_next_time(min_sec, max_sec)
     local _min = min_sec * 60

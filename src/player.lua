@@ -1,36 +1,46 @@
-player = {
-    x = 40,
-    y = 110,
-    lives = 3,
-    lane = 0, -- for bullet path
-    img = love.graphics.newImage("asset/image/player.png")
-}
+local SFX_FIRE = love.audio.newSource("asset/sound/player_fire.wav", "static")
+local PLAYER_IMG = love.graphics.newImage("asset/image/player.png")
 
-player.move =function(self, dir)
-   if dir == "left" then
-    self.x = self.x - 1
+Player = Object:extend()
+
+function Player:new()
+    self.lane = 3 -- for bullet path
+    self.x = LANES[self.lane]
+    self.y = 100
+    self.lives = 3
+    self.missiles = 3
+    self.next_x = nil
+    self.is_moving = false
+end
+
+function Player:move(dir)
+    if dir == "left" then
+        self.x = self.x - 1
     elseif dir == "right" then
         self.x = self.x + 1
-   end 
+    end
 end
 
-player.update = function(self)
-    
+function Player:update()
+    print(self.x)
 end
 
-player.on_hit = function(self, baddie)
+function Player:on_hit(baddie)
     self.lives = self.lives - 1
 end
 
-player.draw = function(self)
-    love.graphics.draw(self.img, self.x, self.y)
+function Player:draw()
+    love.graphics.draw(PLAYER_IMG, self.x, self.y)
 end
 
-player.reset = function(self)
+function Player:reset()
     self.lives = 3
+    self.missiles = 3
 end
 
-player.shoot_bullet = function (self)
-    local b = Bullet(self.x+8, self.y)
+function Player:shoot_bullet()
+    local b = Bullet(self.x + 8, self.y)
+    local _sfx = SFX_FIRE:clone()
+    _sfx:play()
     table.insert(bullets, b)
 end
