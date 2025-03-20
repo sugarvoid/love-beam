@@ -6,7 +6,7 @@ Player = Object:extend()
 function Player:new()
     self.lane = 3 -- for bullet path
     self.x = LANES[self.lane]
-    self.y = 100
+    self.y = 110
     self.lives = 3
     self.dx = 0
     self.missiles = 3
@@ -15,6 +15,7 @@ function Player:new()
 end
 
 function Player:move(dir)
+    if not self.is_moving then
     if dir == "left" then
         --self.x = self.x - 1
         self.lane = lume.clamp(1, self.lane - 1, 5)
@@ -28,7 +29,7 @@ function Player:move(dir)
     end
 
     self.next_x = LANES[self.lane]
-    print(self.next_x)
+end
 end
 
 function Player:update()

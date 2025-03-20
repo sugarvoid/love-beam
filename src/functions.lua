@@ -52,3 +52,16 @@ end
 function math.clamp(low, n, high)
     return math.min(math.max(n, low), high)
 end
+
+
+function get_point_along_line(start_vec2, end_vec2, dist)
+    local dx, dy = end_vec2.x - start_vec2.x, end_vec2.y - start_vec2.y
+    local length = math.sqrt(dx * dx + dy * dy)
+  
+    if length == 0 then
+        return Vec2:new(start_vec2.x, start_vec2.y)
+    end
+  
+    local scale = dist / length
+    return Vec2:new(start_vec2.x + dx * scale, start_vec2.y + dy * scale)
+  end

@@ -15,6 +15,7 @@ lume = require("lib.lume")
 flux = require("lib.flux")
 anim8 = require("lib.anim8")
 
+require("lib.vec2")
 require("src.player")
 require("src.bad_ship")
 require("src.bullet")
@@ -63,6 +64,8 @@ TODO: Fix these, they were gotten using player sprite,
 LANES = {30,70,105,142,180}
 
 
+TEST_POS = get_point_along_line({x=(227/2)-20,y=30}, {x=(227/2)-40,y=128}, 80)
+
 function love.load()
     player = Player()
     if is_debug_on then
@@ -83,6 +86,11 @@ function love.load()
     width, height = love.graphics.getDimensions()
     love.window.setMode(width, height, { resizable = true, borderless = false })
     resize(width, height) -- update new translation and scale
+
+
+    TEST_MS = Mothership()
+
+
 end
 
 function love.quit()
@@ -197,6 +205,10 @@ function love.draw()
     end
 
     player:draw()
+
+    TEST_MS:draw()
+
+    love.graphics.circle("fill", TEST_POS.x, TEST_POS.y, 2, 100) 
 end
 
 function resize(w, h) -- update new translation and scale:
