@@ -63,8 +63,19 @@ TODO: Fix these, they were gotten using player sprite,
 ]]--
 LANES = {30,70,105,142,180}
 
+LANES_POS = {
+    {top=nil, bottom=nil},
+    {top=nil, bottom=nil},
+    {top=nil, bottom=nil},
+    {top=nil, bottom=nil},
+    {top=nil, bottom=nil},
+    {top=nil, bottom=nil},
+    {top=nil, bottom=nil}
+}
 
-TEST_POS = get_point_along_line({x=(227/2)-20,y=30}, {x=(227/2)-40,y=128}, 80)
+local dis = 0
+
+TEST_POS = get_point_along_line({x=(227/2)-20,y=30}, {x=(227/2)-40,y=128}, dis)
 
 function love.load()
     player = Player()
@@ -106,6 +117,9 @@ function love.update(dt)
     flux.update(dt)
     player:update()
 
+
+    TEST_POS = get_point_along_line({x=(226/2)-20,y=30}, {x=(226/2)-40,y=128}, dis)
+
     for b in table.for_each(bullets) do
         b:update()
     end
@@ -130,6 +144,7 @@ function love.update(dt)
 
     check_inputs()
     input:update()
+    TEST_MS:update()
 end
 
 function check_inputs()
@@ -138,6 +153,13 @@ function check_inputs()
     end
     if input:pressed 'right' then
         player:move('right')
+    end
+
+    if input:down 'up' then
+        dis = dis - 1 
+    end
+    if input:down 'down' then
+        dis = dis + 1 
     end
 
     if input:pressed 'quit' then
@@ -165,7 +187,8 @@ function love.draw()
     -- your graphics code here, optimized for fullHD
 
 
-    love.graphics.print("FPS: "..tostring(love.timer.getFPS( )), 0, 0, 0, 0.4, 0.4)
+    --love.graphics.print("FPS: "..tostring(love.timer.getFPS( )), 0, 0, 0, 0.4, 0.4)
+    love.graphics.print("dis: "..tostring(dis), 0, 0, 0, 0.4, 0.4)
 
     love.graphics.push("all")
     set_color_from_hex("#00c0c096")
@@ -175,20 +198,21 @@ function love.draw()
 
     -- TODO: Remove math once positions are good
     --middle 
-    love.graphics.line(227 / 2, 30, 227 / 2, 128)
+    love.graphics.line(226 / 2, 30, 226 / 2, 128)
 
-    love.graphics.line(227 / 2 - 20, 30, 227 / 2 - 40, 128)
-    love.graphics.line(227 / 2 + 20, 30, 227 / 2 + 40, 128)
+    love.graphics.line(226 / 2 - 20, 30, 226 / 2 - 40, 128)
+    love.graphics.line(226 / 2 + 20, 30, 226 / 2 + 40, 128)
 
-    love.graphics.line(227 / 2 - 45, 30, 227 / 2 - 80, 128)
-    love.graphics.line(227 / 2 + 45, 30, 227 / 2 + 80, 128)
+    love.graphics.line(226 / 2 - 45, 30, 226 / 2 - 80, 128)
+    love.graphics.line(226 / 2 + 45, 30, 226 / 2 + 80, 128)
 
-    love.graphics.line(227 / 2 - 75, 30, 227 / 2 - 130, 128)
-    love.graphics.line(227 / 2 + 75, 30, 227 / 2 + 130, 128)
+    love.graphics.line(226 / 2 - 75, 30, 226 / 2 - 130, 128)
+    love.graphics.line(226 / 2 + 75, 30, 226 / 2 + 130, 128)
 
 
-    love.graphics.line(227 / 2 - 105, 30, 227 / 2 - 180, 128)
-    love.graphics.line(227 / 2 + 105, 30, 227 / 2 + 180, 128)
+    -- far right and left
+    love.graphics.line(226 / 2 - 105, 30, 226 / 2 - 180, 128)
+    love.graphics.line(226 / 2 + 105, 30, 267 / 2 + 180, 128)
 
 
 
@@ -208,7 +232,7 @@ function love.draw()
 
     TEST_MS:draw()
 
-    love.graphics.circle("fill", TEST_POS.x, TEST_POS.y, 2, 100) 
+    love.graphics.circle("fill", TEST_POS.x, TEST_POS.y, 2, 100)
 end
 
 function resize(w, h) -- update new translation and scale:

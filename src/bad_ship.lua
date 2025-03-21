@@ -13,6 +13,11 @@ function BaseEnemy:draw()
   love.graphics.draw(self.sprite, self.position.x, self.position.y, 0, self.scale, self.scale)
 end
 
+function BaseEnemy:update()
+  --logger.fatal("Enemy class does not have update function.")
+  error("Enemy needs their own update function.")
+end
+
 
 Mothership = BaseEnemy:extend()
 
@@ -25,10 +30,11 @@ function Mothership:new()
   self.position.y = 20
   self.sprite = MOTHERSHIP_SPR
   self.scale = .7
-
-  
-
   print(self.position)
+end
+
+function Mothership:update()
+  logger.info("I have my own update()")
 end
 
 GreenShip = BaseEnemy:extend()
