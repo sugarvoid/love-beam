@@ -7,6 +7,8 @@ function BaseEnemy:new()
   self.position = Vec2:new(0,0)
   self.sprite = nil
   self.scale = 1
+  self.moving_dir = {0,0}
+  self.lane = nil
 end
 
 function BaseEnemy:draw()

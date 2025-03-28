@@ -73,9 +73,35 @@ LANES_POS = {
     {top=nil, bottom=nil}
 }
 
+LANES_POS = {
+    {{x = 8, y = 30}, {x = -67, y = 128}},
+    {{x = 38, y = 30}, {x = -17, y = 128}},
+    {{x = 68, y = 30}, {x = 33, y = 128}},
+    {{x = 93, y = 30}, {x = 73, y = 128}},
+    {{x = 113, y = 30}, {x = 113, y = 128}},
+    {{x = 133, y = 30}, {x = 153, y = 128}},
+    {{x = 158, y = 30}, {x = 193, y = 128}},
+    {{x = 188, y = 30}, {x = 243, y = 128}},
+    {{x = 218, y = 30}, {x = 313.5, y = 128}},
+}
+
+
+
+-- love.graphics.line(226 / 2 - 105, 30, 226 / 2 - 180, 128)
+-- love.graphics.line(226 / 2 - 75, 30, 226 / 2 - 130, 128)
+-- love.graphics.line(226 / 2 - 45, 30, 226 / 2 - 80, 128)
+-- love.graphics.line(226 / 2 - 20, 30, 226 / 2 - 40, 128)
+-- love.graphics.line(226 / 2, 30, 226 / 2, 128)
+-- love.graphics.line(226 / 2 + 20, 30, 226 / 2 + 40, 128)
+-- love.graphics.line(226 / 2 + 45, 30, 226 / 2 + 80, 128)
+-- love.graphics.line(226 / 2 + 75, 30, 226 / 2 + 130, 128)
+-- love.graphics.line(226 / 2 + 105, 30, 267 / 2 + 180, 128)
+
+
+
 local dis = 0
 
-TEST_POS = get_point_along_line({x=(227/2)-20,y=30}, {x=(227/2)-40,y=128}, dis)
+TEST_POS = get_point_along_line(LANES_POS[2][1], LANES_POS[2][2], dis)
 
 function love.load()
     player = Player()
@@ -118,7 +144,7 @@ function love.update(dt)
     player:update()
 
 
-    TEST_POS = get_point_along_line({x=(226/2)-20,y=30}, {x=(226/2)-40,y=128}, dis)
+    TEST_POS = get_point_along_line(LANES_POS[6][1], LANES_POS[6][2], dis)
 
     for b in table.for_each(bullets) do
         b:update()
@@ -198,16 +224,27 @@ function love.draw()
 
     -- TODO: Remove math once positions are good
     --middle 
-    love.graphics.line(226 / 2, 30, 226 / 2, 128)
 
-    love.graphics.line(226 / 2 - 20, 30, 226 / 2 - 40, 128)
-    love.graphics.line(226 / 2 + 20, 30, 226 / 2 + 40, 128)
+    love.graphics.line(LANES_POS[1][1].x, LANES_POS[1][1].y, LANES_POS[1][2].x, LANES_POS[1][2].y)
+    love.graphics.line(LANES_POS[2][1].x, LANES_POS[2][1].y, LANES_POS[2][2].x, LANES_POS[2][2].y)
+    love.graphics.line(LANES_POS[3][1].x, LANES_POS[3][1].y, LANES_POS[3][2].x, LANES_POS[3][2].y)
+    love.graphics.line(LANES_POS[4][1].x, LANES_POS[4][1].y, LANES_POS[4][2].x, LANES_POS[4][2].y)
+    love.graphics.line(LANES_POS[5][1].x, LANES_POS[5][1].y, LANES_POS[5][2].x, LANES_POS[5][2].y)
+    love.graphics.line(LANES_POS[6][1].x, LANES_POS[6][1].y, LANES_POS[6][2].x, LANES_POS[6][2].y)
+    love.graphics.line(LANES_POS[7][1].x, LANES_POS[7][1].y, LANES_POS[7][2].x, LANES_POS[7][2].y)
+    love.graphics.line(LANES_POS[8][1].x, LANES_POS[8][1].y, LANES_POS[8][2].x, LANES_POS[8][2].y)
+    love.graphics.line(LANES_POS[9][1].x, LANES_POS[9][1].y, LANES_POS[9][2].x, LANES_POS[9][2].y)
 
-    love.graphics.line(226 / 2 - 45, 30, 226 / 2 - 80, 128)
-    love.graphics.line(226 / 2 + 45, 30, 226 / 2 + 80, 128)
+    -- love.graphics.line(226 / 2, 30, 226 / 2, 128)
 
-    love.graphics.line(226 / 2 - 75, 30, 226 / 2 - 130, 128)
-    love.graphics.line(226 / 2 + 75, 30, 226 / 2 + 130, 128)
+    -- love.graphics.line(226 / 2 - 20, 30, 226 / 2 - 40, 128)
+    -- love.graphics.line(226 / 2 + 20, 30, 226 / 2 + 40, 128)
+
+    -- love.graphics.line(226 / 2 - 45, 30, 226 / 2 - 80, 128)
+    -- love.graphics.line(226 / 2 + 45, 30, 226 / 2 + 80, 128)
+
+    -- love.graphics.line(226 / 2 - 75, 30, 226 / 2 - 130, 128)
+    -- love.graphics.line(226 / 2 + 75, 30, 226 / 2 + 130, 128)
 
 
     -- far right and left
