@@ -216,23 +216,20 @@ function change_gamestate(state)
 end
 
 function love.draw()
+    --love.graphics.clear()
     -- first translate, then scale
     love.graphics.translate(window.translateX, window.translateY)
     love.graphics.scale(window.scale)
     -- your graphics code here, optimized for fullHD
 
 
-    --love.graphics.print("FPS: "..tostring(love.timer.getFPS( )), 0, 0, 0, 0.4, 0.4)
-    love.graphics.print("dis: "..tostring(dis), 0, 0, 0, 0.4, 0.4)
+    love.graphics.print("FPS: "..tostring(love.timer.getFPS( )), 0, 0, 0, 0.4, 0.4)
+
 
     love.graphics.push("all")
     set_color_from_hex("#00c0c096")
     love.graphics.setLineWidth(0.5)
     love.graphics.line(0, 30, 227, 30)
-
-
-    -- TODO: Remove math once positions are good
-    --middle 
 
     love.graphics.line(LANES_POS[1][1].x, LANES_POS[1][1].y, LANES_POS[1][2].x, LANES_POS[1][2].y)
     love.graphics.line(LANES_POS[2][1].x, LANES_POS[2][1].y, LANES_POS[2][2].x, LANES_POS[2][2].y)
@@ -244,23 +241,20 @@ function love.draw()
     love.graphics.line(LANES_POS[8][1].x, LANES_POS[8][1].y, LANES_POS[8][2].x, LANES_POS[8][2].y)
     love.graphics.line(LANES_POS[9][1].x, LANES_POS[9][1].y, LANES_POS[9][2].x, LANES_POS[9][2].y)
 
-    -- love.graphics.line(226 / 2, 30, 226 / 2, 128)
 
-    -- love.graphics.line(226 / 2 - 20, 30, 226 / 2 - 40, 128)
-    -- love.graphics.line(226 / 2 + 20, 30, 226 / 2 + 40, 128)
-
-    -- love.graphics.line(226 / 2 - 45, 30, 226 / 2 - 80, 128)
-    -- love.graphics.line(226 / 2 + 45, 30, 226 / 2 + 80, 128)
-
-    -- love.graphics.line(226 / 2 - 75, 30, 226 / 2 - 130, 128)
-    -- love.graphics.line(226 / 2 + 75, 30, 226 / 2 + 130, 128)
-
-
-    -- far right and left
-    love.graphics.line(226 / 2 - 105, 30, 226 / 2 - 180, 128)
-    love.graphics.line(226 / 2 + 105, 30, 267 / 2 + 180, 128)
-
-
+    set_color_from_hex("#000000")
+    --love.graphics.rectangle("fill", 0, 28, 227, 8)
+    love.graphics.rectangle("fill", 0, 30, 227, 8)
+    love.graphics.rectangle("fill", 0, 40, 227, 8)
+    love.graphics.rectangle("fill", 0, 50, 227, 8)
+    love.graphics.rectangle("fill", 0, 60, 227, 8)
+    love.graphics.rectangle("fill", 0, 70, 227, 8)
+    love.graphics.rectangle("fill", 0, 80, 227, 8)
+    love.graphics.rectangle("fill", 0, 90, 227, 8)
+    love.graphics.rectangle("fill", 0, 100, 227, 8)
+    love.graphics.rectangle("fill", 0, 110, 227, 8)
+    love.graphics.rectangle("fill", 0, 120, 227, 8)
+    set_color_from_hex("#00c0c096")
 
     for l in table.for_each(lines) do
         if l.y >= 30 then
@@ -273,7 +267,6 @@ function love.draw()
     for b in table.for_each(bullets) do
         b:draw()
     end
-
 
     for s in table.for_each(all_ships) do
         s:draw()
