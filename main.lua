@@ -1,5 +1,5 @@
 
-is_debug_on = true
+is_debug_on = false
 
 love.graphics.setDefaultFilter("nearest", "nearest")
 
@@ -99,10 +99,6 @@ LANES_POS = {
 
 
 
-local dis = 0
-
-TEST_POS = get_point_along_line(LANES_POS[2][1], LANES_POS[2][2], dis)
-
 function love.load()
     player = Player()
     if is_debug_on then
@@ -127,6 +123,11 @@ function love.load()
 
     TEST_MS = Mothership()
 
+    TEST_GS = MovingShip("white")
+
+    table.insert(all_ships, TEST_MS)
+    table.insert(all_ships, TEST_GS)
+
 
 end
 
@@ -140,11 +141,13 @@ function love.quit()
 end
 
 function love.update(dt)
+    dt = math.min(dt, 1/60)
     flux.update(dt)
     player:update()
 
 
-    TEST_POS = get_point_along_line(LANES_POS[6][1], LANES_POS[6][2], dis)
+    --TEST_POS = get_point_along_line(6, dis)
+    TEST_GS.position = get_point_along_line(6, 0)
 
     for b in table.for_each(bullets) do
         b:update()
@@ -170,22 +173,28 @@ function love.update(dt)
 
     check_inputs()
     input:update()
-    TEST_MS:update()
+
+
+    for s in table.for_each(all_ships) do
+        s:update(dt)
+    end
 end
 
 function check_inputs()
     if input:pressed 'left' then
         player:move('left')
+        TEST_GS:change_lane(-1)
     end
     if input:pressed 'right' then
         player:move('right')
+        TEST_GS:change_lane(1)
     end
 
     if input:down 'up' then
-        dis = dis - 1 
+        TEST_GS.distance = TEST_GS.distance - 1
     end
     if input:down 'down' then
-        dis = dis + 1 
+        TEST_GS.distance = TEST_GS.distance + 1
     end
 
     if input:pressed 'quit' then
@@ -265,11 +274,16 @@ function love.draw()
         b:draw()
     end
 
+
+    for s in table.for_each(all_ships) do
+        s:draw()
+    end
+
     player:draw()
 
-    TEST_MS:draw()
+ 
 
-    love.graphics.circle("fill", TEST_POS.x, TEST_POS.y, 2, 100)
+    --love.graphics.circle("fill", TEST_POS.x, TEST_POS.y, 2, 100)
 end
 
 function resize(w, h) -- update new translation and scale:

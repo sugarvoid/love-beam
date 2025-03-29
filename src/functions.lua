@@ -65,3 +65,25 @@ function get_point_along_line(start_vec2, end_vec2, dist)
     local scale = dist / length
     return Vec2:new(start_vec2.x + dx * scale, start_vec2.y + dy * scale)
   end
+
+
+  function get_point_along_line(lane, dist)
+    local dx, dy = LANES_POS[lane][2].x - LANES_POS[lane][1].x, LANES_POS[lane][2].y - LANES_POS[lane][1].y
+    local length = math.sqrt(dx * dx + dy * dy)
+  
+    if length == 0 then
+        return Vec2:new(LANES_POS[lane][1].x, LANES_POS[lane][1].y)
+    end
+  
+    local scale = dist / length
+    return Vec2:new(LANES_POS[lane][1].x+ dx * scale, LANES_POS[lane][1].y + dy * scale)
+  end
+
+
+
+  function all(_list)
+    local i = 0
+    return function()
+        i = i + 1; return _list[i]
+    end
+end
