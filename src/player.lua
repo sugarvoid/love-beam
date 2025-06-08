@@ -19,25 +19,32 @@ function Player:move(dir)
     if dir == "left" then
         --self.x = self.x - 1
         self.lane = lume.clamp(1, self.lane - 1, 5)
-        self.dx = -1
+        --self.dx = -1
         self.is_moving = true
     elseif dir == "right" then
         --self.x = self.x + 1
         self.lane = lume.clamp(1, self.lane + 1, 5)
-        self.dx = 1
+        --self.dx = 1
+        
         self.is_moving = true
     end
 
     self.next_x = LANES[self.lane]
+
+    flux.to(self, 0.2, {x = self.next_x}):ease("quintout"):oncomplete(
+        function()
+            self.is_moving = false
+        end
+    )
 end
 end
 
 function Player:update()
-    if math.floor(self.x) ~= self.next_x then
-        self.x = self.x + self.dx
-    else
-        self.is_moving = false
-    end
+   -- if math.floor(self.x) ~= self.next_x then
+   --     self.x = self.x + self.dx
+   -- else
+   --     self.is_moving = false
+   -- end
 end
 
 function Player:on_hit(baddie)
